@@ -8,37 +8,39 @@ public class Counter : MonoBehaviour
     [SerializeField] private float _delay = 0.5f;
     [SerializeField] private int _count = 0;
 
-    public Coroutine IncreaseCounterCoroutine;
+    private Coroutine _counterCoroutine;
+    private WaitForSeconds _wait;
 
     private void Start()
     {
         _text.text = "0";
+        _wait = new WaitForSeconds(_delay);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (IncreaseCounterCoroutine == null)
+            if (_counterCoroutine == null)
             {
-                IncreaseCounterCoroutine = StartCoroutine(IncreaseCounter());
+                _counterCoroutine = StartCoroutine(CountUp());
             }
             else
             {
-                StopCoroutine(IncreaseCounterCoroutine);
-                IncreaseCounterCoroutine = null;
+                StopCoroutine(_counterCoroutine);
+                _counterCoroutine = null;
             }
         }
     }
 
-    private IEnumerator IncreaseCounter()
+    private IEnumerator CountUp()
     {
         while (_count >= 0)
         {
             _count++;
             _text.text = _count.ToString();
 
-            yield return new WaitForSeconds(_delay);
+            yield return _wait;
         }
     }
 }

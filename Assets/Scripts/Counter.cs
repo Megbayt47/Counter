@@ -16,7 +16,6 @@ public class Counter : MonoBehaviour
         _count = 0;
         CountChanged?.Invoke(_count);
         _wait = new WaitForSeconds(_delay);
-        
     }
     
     private void Update()
